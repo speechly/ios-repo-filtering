@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F510FE74256826FF00B6A2D0 /* Speechly in Frameworks */ = {isa = PBXBuildFile; productRef = F510FE73256826FF00B6A2D0 /* Speechly */; };
-		F5754279255D42CD0099BC26 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5754278255D42CD0099BC26 /* ToggleButton.swift */; };
+		8B9EEA812620392800D4F4D3 /* Speechly in Frameworks */ = {isa = PBXBuildFile; productRef = 8B9EEA802620392800D4F4D3 /* Speechly */; };
 		F575427C255D42D90099BC26 /* MicrophoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F575427B255D42D90099BC26 /* MicrophoneButton.swift */; };
 		F5754280255D53F90099BC26 /* TranscriptText.swift in Sources */ = {isa = PBXBuildFile; fileRef = F575427F255D53F90099BC26 /* TranscriptText.swift */; };
 		F5893439255EB0B200977C63 /* SpeechlyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5893438255EB0B200977C63 /* SpeechlyManager.swift */; };
@@ -25,7 +24,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		F5754278255D42CD0099BC26 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		F575427B255D42D90099BC26 /* MicrophoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrophoneButton.swift; sourceTree = "<group>"; };
 		F575427F255D53F90099BC26 /* TranscriptText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptText.swift; sourceTree = "<group>"; };
 		F5893438255EB0B200977C63 /* SpeechlyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechlyManager.swift; sourceTree = "<group>"; };
@@ -48,7 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F510FE74256826FF00B6A2D0 /* Speechly in Frameworks */,
+				8B9EEA812620392800D4F4D3 /* Speechly in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,7 +56,6 @@
 		F5754276255D42A40099BC26 /* MicrophoneView */ = {
 			isa = PBXGroup;
 			children = (
-				F5754278255D42CD0099BC26 /* ToggleButton.swift */,
 				F575427B255D42D90099BC26 /* MicrophoneButton.swift */,
 			);
 			path = MicrophoneView;
@@ -158,7 +155,7 @@
 			);
 			name = RepoFiltering;
 			packageProductDependencies = (
-				F510FE73256826FF00B6A2D0 /* Speechly */,
+				8B9EEA802620392800D4F4D3 /* Speechly */,
 			);
 			productName = RepoFiltering;
 			productReference = F5E88CD2255AD2B10072839F /* RepoFiltering.app */;
@@ -188,7 +185,7 @@
 			);
 			mainGroup = F5E88CC9255AD2B10072839F;
 			packageReferences = (
-				F510FE72256826FF00B6A2D0 /* XCRemoteSwiftPackageReference "ios-client" */,
+				8B9EEA7F2620392800D4F4D3 /* XCRemoteSwiftPackageReference "ios-client" */,
 			);
 			productRefGroup = F5E88CD3255AD2B10072839F /* Products */;
 			projectDirPath = "";
@@ -221,7 +218,6 @@
 				F5C3B15E255C37C600BFBF73 /* RepoRow.swift in Sources */,
 				F5E88CD8255AD2B10072839F /* RepoList.swift in Sources */,
 				F5893439255EB0B200977C63 /* SpeechlyManager.swift in Sources */,
-				F5754279255D42CD0099BC26 /* ToggleButton.swift in Sources */,
 				F5754280255D53F90099BC26 /* TranscriptText.swift in Sources */,
 				F575427C255D42D90099BC26 /* MicrophoneButton.swift in Sources */,
 				F5E88CD6255AD2B10072839F /* RepoFilteringApp.swift in Sources */,
@@ -416,20 +412,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		F510FE72256826FF00B6A2D0 /* XCRemoteSwiftPackageReference "ios-client" */ = {
+		8B9EEA7F2620392800D4F4D3 /* XCRemoteSwiftPackageReference "ios-client" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/speechly/ios-client.git";
 			requirement = {
-				kind = exactVersion;
-				version = 0.1.0;
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.3.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F510FE73256826FF00B6A2D0 /* Speechly */ = {
+		8B9EEA802620392800D4F4D3 /* Speechly */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F510FE72256826FF00B6A2D0 /* XCRemoteSwiftPackageReference "ios-client" */;
+			package = 8B9EEA7F2620392800D4F4D3 /* XCRemoteSwiftPackageReference "ios-client" */;
 			productName = Speechly;
 		};
 /* End XCSwiftPackageProductDependency section */
