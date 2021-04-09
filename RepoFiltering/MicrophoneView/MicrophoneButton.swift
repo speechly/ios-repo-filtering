@@ -1,37 +1,47 @@
 import SwiftUI
+import Speechly
+
 
 struct MicrophoneButton: View {
     let onStart: () -> Void
     let onStop: () -> Void
 
     var body: some View {
-        ToggleButton(onDown: startRecording, onUp: stopRecording) {
-            Circle()
-                .frame(width: 80, height: 80)
-                .foregroundColor(.blue)
-                .overlay(
-                    Image(systemName: "mic.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(.white)
-                )
-        }.buttonStyle(Style())
+        MicButtonWrapper(onStart: onStart, onStop: onStop)
+            .frame(width: 80, height: 80)
+    }
+}
+
+/// Wrap the UIKit MicrophoneButtonView to be usable in SwiftUI
+struct MicButtonWrapper: UIViewRepresentable {
+    let onStart: () -> Void
+    let onStop: () -> Void
+
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(self)
     }
 
-    private func startRecording() {
-        self.onStart()
+    func makeUIView(context: Context) -> Speechly.MicrophoneButtonView {
+        let view = Speechly.MicrophoneButtonView(delegate: context.coordinator)
+        view.reloadAuthorizationStatus()
+        return view
     }
 
-    private func stopRecording() {
-        self.onStop()
+    func updateUIView(_ uiView: Speechly.MicrophoneButtonView, context: Context) {
     }
+}
 
-    private struct Style: ButtonStyle {
-        func makeBody(configuration: Configuration) -> some View {
-            configuration.label
-                .scaleEffect(configuration.isPressed ? 1.25 : 1.0)
-                .animation(.easeInOut)
+extension MicButtonWrapper {
+    class Coordinator: MicrophoneButtonDelegate {
+        var parent: MicButtonWrapper
+        init(_ parent: MicButtonWrapper) {
+            self.parent = parent
+        }
+        func didOpenMicrophone(_ button: MicrophoneButtonView) {
+            parent.onStart()
+        }
+        func didCloseMicrophone(_ button: MicrophoneButtonView) {
+            parent.onStop()
         }
     }
 }
