@@ -10,6 +10,7 @@ struct RepoList: View {
             }
             .navigationBarTitle(Text("Repositories"), displayMode: .inline)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

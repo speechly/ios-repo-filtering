@@ -1,19 +1,24 @@
-import Foundation
 import SwiftUI
 import Speechly
 
-class SpeechlyManager: ObservableObject {
-    let client: SpeechClient
-    var active: Bool
+struct SpeechlyManagerError: Identifiable {
+    var id: String { error }
+    let error: String
+}
 
-    @Published var transcript: [SpeechTranscript] = []
+class SpeechlyManager: ObservableObject {
+    let client: Speechly.Client
+    var active: Bool
+    var currentAppId: String?
+
+    @Published var transcript: [Transcript] = []
     @Published var filter: GithubRepoFilter = GithubRepoFilter.empty
+    @Published var error: SpeechlyManagerError?
 
     init() {
         self.active = true
-        self.client = try! SpeechClient(
-            appId: UUID(uuidString: "your-speechly-app-id")!,
-            language: .enUS
+        self.client = try! Speechly.Client(
+            appId: UUID(uuidString: "your-app-id")!
         )
 
         self.client.delegate = self
@@ -23,16 +28,14 @@ class SpeechlyManager: ObservableObject {
         if !self.active {
             return
         }
-
-        self.client.start()
+        self.client.startContext(appId: self.currentAppId)
     }
 
     func stop() {
         if !self.active {
             return
         }
-
-        self.client.stop()
+        self.client.stopContext()
     }
 
     func suspend() {
@@ -50,20 +53,26 @@ class SpeechlyManager: ObservableObject {
     }
 }
 
-extension SpeechlyManager: SpeechClientDelegate {
-    func speechlyClientDidStart(_: SpeechClientProtocol) {
+extension SpeechlyManager: SpeechlyDelegate {
+    func speechlyClientDidStart(_: SpeechlyProtocol) {
         DispatchQueue.main.async {
             self.transcript = []
         }
     }
 
-    func speechlyClientDidStop(_: SpeechClientProtocol) {
+    func speechlyClientDidStop(_: SpeechlyProtocol) {
         DispatchQueue.main.async {
             self.transcript = []
         }
     }
 
-    func speechlyClientDidUpdateSegment(_ client: SpeechClientProtocol, segment: SpeechSegment) {
+    func speechlyClientDidCatchError(_ speechlyClient: SpeechlyProtocol, error: SpeechlyError) {
+        DispatchQueue.main.async {
+            self.error = SpeechlyManagerError(error: String(describing: error))
+        }
+    }
+
+    func speechlyClientDidUpdateSegment(_ client: SpeechlyProtocol, segment: Segment) {
         DispatchQueue.main.async {
             switch segment.intent.value.lowercased() {
             case "filter":
@@ -87,7 +96,7 @@ extension SpeechlyManager: SpeechClientDelegate {
     }
 
     private func parseSortOrder(
-        _ segment: SpeechSegment, defaultOrder: GithubRepoFilter.SortOrder = GithubRepoFilter.empty.sortOrder
+        _ segment: Segment, defaultOrder: GithubRepoFilter.SortOrder = GithubRepoFilter.empty.sortOrder
     ) -> GithubRepoFilter.SortOrder {
         var order = defaultOrder
 
@@ -115,7 +124,7 @@ extension SpeechlyManager: SpeechClientDelegate {
         return order
     }
 
-    private func parseLanguageFilter(_ segment: SpeechSegment, initialValue: [GithubRepo.Language] = []) -> [GithubRepo.Language] {
+    private func parseLanguageFilter(_ segment: Segment, initialValue: [GithubRepo.Language] = []) -> [GithubRepo.Language] {
         var languages = initialValue
 
         for e in segment.entities {
